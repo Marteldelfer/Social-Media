@@ -1,9 +1,11 @@
 package com.martel.social.posts;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.martel.social.DependencyFactory;
 
@@ -30,24 +32,24 @@ public class PostService {
         return postRepository.findAll();
     }
 
-    private void save(RequestBody image, String key, String contentType) {
+    private void save(MultipartFile file, String key) throws IOException {
+        RequestBody requestBody = RequestBody.fromInputStream(
+            file.getInputStream(),
+            file.getSize()
+        );
         PutObjectRequest request = PutObjectRequest.builder()
             .acl(ObjectCannedACL.PUBLIC_READ)
             .bucket(bucket)
             .key(key)
-            .contentType(contentType)
+            .contentType(file.getContentType())
             .build();
-        s3Client.putObject(request, image);
+        s3Client.putObject(request, requestBody);
     }
 
     public Post publish(PostDto postDto) {
         try {
-            RequestBody request = RequestBody.fromInputStream(
-                postDto.image().getInputStream(),
-                postDto.image().getSize()
-            );
             String key = Long.toString(System.currentTimeMillis());
-            save(request, key, postDto.image().getContentType());
+            save(postDto.image(), key);
 
             Post post = Post.builder()
                 .key(key)
@@ -67,14 +69,10 @@ public class PostService {
 
     public Post edit(PostDto postDto, String id) {
         try {
-            RequestBody request = RequestBody.fromInputStream(
-                postDto.image().getInputStream(),
-                postDto.image().getSize()
-            );
             Post post = postRepository.findById(id).get();
             post.setDescription(postDto.description());
 
-            save(request, post.getKey(), postDto.image().getContentType());
+            save(postDto.image(), post.getKey());
   
             return postRepository.save(post);
             
