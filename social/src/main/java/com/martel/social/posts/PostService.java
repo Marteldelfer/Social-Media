@@ -1,6 +1,7 @@
 package com.martel.social.posts;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.martel.social.DependencyFactory;
+import com.martel.social.comments.Comment;
 
 import lombok.RequiredArgsConstructor;
 import software.amazon.awssdk.core.sync.RequestBody;
@@ -57,6 +59,7 @@ public class PostService {
                 .description(postDto.description())
                 .postDate(new Date())
                 .views(0)
+                .comments(new ArrayList<Comment>())
                 .build();
 
             return postRepository.save(post);

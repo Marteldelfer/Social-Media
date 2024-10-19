@@ -1,5 +1,4 @@
-package com.martel.social.posts;
-
+package com.martel.social.comments;
 
 import java.util.Date;
 import java.util.List;
@@ -8,7 +7,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.martel.social.comments.Comment;
+import com.martel.social.posts.Post;
 
 import lombok.Builder;
 import lombok.Data;
@@ -16,26 +15,25 @@ import lombok.Data;
 @Data
 @Builder
 @Document
-public class Post {
+public class Comment {
 
     @Id
     private String id;
 
-    private String key;
-    private String imageUrl;
-    private String description;
-    private Date postDate;
-    private long views;
+    private String content;
+    private Date commentDate;
     
     @DBRef
-    private List<Comment> comments;
-    /* 
-    TODO Comments, Likes and User
+    private Post post;
     @DBRef
-    private Set<User> likes;
+    private List<Response> responses;
 
-    
+    /*
+    TODO Add Users
+
     @DBRef
     private User sender;
-    */
+     */
+
+    
 }

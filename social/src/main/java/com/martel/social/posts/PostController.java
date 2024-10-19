@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,7 +28,7 @@ public class PostController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Post> getPost(
-        @PathVariable("{id}") String id
+        @PathVariable("id") String id
     ) {
         return ResponseEntity.ok(postService.getPost(id));
     }
@@ -43,15 +42,15 @@ public class PostController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Post> editPost(
-        @RequestBody PostDto postDto,
-        @PathVariable("{id}") String id
+        @ModelAttribute PostDto postDto,
+        @PathVariable("id") String id
     ) {
         return ResponseEntity.ok(postService.edit(postDto, id));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePost(
-        @PathVariable("{id}") String id
+        @PathVariable("id") String id
     ) {
         postService.delete(id);
         return ResponseEntity.accepted().build();

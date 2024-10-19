@@ -1,3 +1,9 @@
 spring:
-    application:
-        name: social
+  data:
+    mongodb:
+      username: username
+      password: password
+      host: localhost
+      port: 27000
+      database: social-database
+      authentication-database: admin
