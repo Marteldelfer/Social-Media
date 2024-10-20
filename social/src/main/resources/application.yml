@@ -1,9 +1,12 @@
 spring:
-  data:
-    mongodb:
-      username: username
-      password: password
-      host: localhost
-      port: 27000
-      database: social-database
-      authentication-database: admin
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3360/socialdb
+    username: root
+    password: password
+  
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+    

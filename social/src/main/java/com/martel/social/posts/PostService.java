@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,7 +27,7 @@ public class PostService {
     private final String urlBase = "https://martel-social-media.s3.sa-east-1.amazonaws.com/";
     private final String bucket = "martel-social-media";
     
-    public Post getPost(String id) {
+    public Post getPost(UUID id) {
         return postRepository.findById(id).get();
     }
 
@@ -54,7 +55,7 @@ public class PostService {
             save(postDto.image(), key);
 
             Post post = Post.builder()
-                .key(key)
+                .bucketKey(key)
                 .imageUrl(urlBase + key)
                 .description(postDto.description())
                 .postDate(new Date())
@@ -70,12 +71,12 @@ public class PostService {
         }
     }
 
-    public Post edit(PostDto postDto, String id) {
+    public Post edit(PostDto postDto, UUID id) {
         try {
             Post post = postRepository.findById(id).get();
             post.setDescription(postDto.description());
 
-            save(postDto.image(), post.getKey());
+            save(postDto.image(), post.getBucketKey());
   
             return postRepository.save(post);
             
@@ -86,7 +87,7 @@ public class PostService {
 
     }
 
-    public void delete(String id) {
+    public void delete(UUID id) {
         postRepository.deleteById(id);
     }
 

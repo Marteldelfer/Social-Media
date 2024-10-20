@@ -3,31 +3,44 @@ package com.martel.social.posts;
 
 import java.util.Date;
 import java.util.List;
-
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
-import org.springframework.data.mongodb.core.mapping.Document;
+import java.util.UUID;
 
 import com.martel.social.comments.Comment;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
-@Document
+@Entity
+@Table(name = "posts")
 public class Post {
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
-    private String key;
+    private String bucketKey;
     private String imageUrl;
     private String description;
     private Date postDate;
     private long views;
     
-    @DBRef
+    @OneToMany
+    @JoinColumn(name = "post_comments")
     private List<Comment> comments;
     /* 
     TODO Comments, Likes and User

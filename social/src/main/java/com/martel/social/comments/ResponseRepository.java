@@ -1,7 +1,9 @@
 package com.martel.social.comments;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
+import java.util.UUID;
 
-public interface ResponseRepository extends MongoRepository<Response, String>{
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ResponseRepository extends JpaRepository<Response, UUID>{
     
 }

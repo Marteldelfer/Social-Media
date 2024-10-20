@@ -1,6 +1,7 @@
 package com.martel.social.posts;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,7 +29,7 @@ public class PostController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Post> getPost(
-        @PathVariable("id") String id
+        @PathVariable("id") UUID id
     ) {
         return ResponseEntity.ok(postService.getPost(id));
     }
@@ -43,14 +44,14 @@ public class PostController {
     @PutMapping("/{id}")
     public ResponseEntity<Post> editPost(
         @ModelAttribute PostDto postDto,
-        @PathVariable("id") String id
+        @PathVariable("id") UUID id
     ) {
         return ResponseEntity.ok(postService.edit(postDto, id));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePost(
-        @PathVariable("id") String id
+        @PathVariable("id") UUID id
     ) {
         postService.delete(id);
         return ResponseEntity.accepted().build();

@@ -3,6 +3,7 @@ package com.martel.social.comments;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
@@ -20,13 +21,13 @@ public class CommentService {
     private final ResponseRepository responseRepository;
 
     public Comment getComment(
-        String id
+        UUID id
     ) {
         return commentRepository.findById(id).get();
     }
 
     public List<Comment> getPostComments(
-        String postId
+        UUID postId
     ) {
         return postRepository.findById(postId).get().getComments();
     }
@@ -36,13 +37,13 @@ public class CommentService {
     }
 
     public Response getResponse(
-        String id
+        UUID id
     ) {
         return responseRepository.findById(id).get();
     }
 
     public List<Response> getCommentResponses(
-        String commentId
+        UUID commentId
     ) {
         return commentRepository.findById(commentId).get().getResponses();
     }
@@ -52,7 +53,7 @@ public class CommentService {
     }
 
     public Comment publishComment(
-        String postId,
+        UUID postId,
         String content
     ) {
         Post post = postRepository.findById(postId).get();
@@ -71,7 +72,7 @@ public class CommentService {
 
     public Response respondComment(
         String content,
-        String commentId
+        UUID commentId
     ) {
         Comment comment = commentRepository.findById(commentId).get();
         Response response = Response.builder()
@@ -84,7 +85,7 @@ public class CommentService {
     }
 
     public Comment editComment(
-        String id,
+        UUID id,
         String content
     ) {
         Comment comment = commentRepository.findById(id).get();
@@ -93,7 +94,7 @@ public class CommentService {
     }
 
     public Response editResponse(
-        String id,
+        UUID id,
         String content
     ) {
         Response response = responseRepository.findById(id).get();
@@ -102,13 +103,13 @@ public class CommentService {
     }
 
     public void deleteComment(
-        String commentId
+        UUID commentId
     ) {
         commentRepository.deleteById(commentId);
     }
 
     public void deleteResponse(
-        String responseId
+        UUID responseId
     ) {
         responseRepository.deleteById(responseId);
     }

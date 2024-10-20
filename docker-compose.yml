@@ -1,24 +1,17 @@
 services:
-  mongodb:
-    image: mongo:4.4.6
-    container_name: mongodb
-    ports:
-      - 27000:27017
-    volumes:
-      - mongo:/data
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=username
-      - MONGO_INITDB_ROOT_PASSWORD=password
+  martel-mysql:
+    container_name: social-mysql
 
-  mongo-express:
-    image: mongo-express
-    container_name: mongoexpress
-    ports:
-      - 8000:8081
+    image: mysql
+
     environment:
-      - ME_CONFIG_MONGODB_ADMINUSERNAME=username
-      - ME_CONFIG_MONGODB_ADMINPASSWORD=password
-      - ME_CONFIG_MONGODB_SERVER=mongodb
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: socialdb
+
+    ports:
+      - "3360:3306"
+    volumes:
+      - mysql:/var/lib/mysql
 
 volumes:
-  mongo: {}
+  mysql:

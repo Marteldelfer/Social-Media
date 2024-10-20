@@ -1,6 +1,7 @@
 package com.martel.social.comments;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,14 +29,14 @@ public class CommentController {
 
     @GetMapping("/post/{postId}")
     public ResponseEntity<List<Comment>> findPostComments(
-        @PathVariable("postId") String postId
+        @PathVariable("postId") UUID postId
     ) {
         return ResponseEntity.ok(commentService.getPostComments(postId));
     }
 
     @GetMapping("/{commentId}")
     public ResponseEntity<Comment> getComment(
-        @PathVariable("commentId") String commentId
+        @PathVariable("commentId") UUID commentId
     ) {
         return ResponseEntity.ok(commentService.getComment(commentId));
     }
@@ -47,21 +48,21 @@ public class CommentController {
 
     @GetMapping("/response/comment/{commentId}")
     public ResponseEntity<List<Response>> getCommentResponse(
-        @PathVariable("commentId") String commentId
+        @PathVariable("commentId") UUID commentId
     ) {
         return ResponseEntity.ok(commentService.getCommentResponses(commentId));
     }
 
     @GetMapping("/response/{responseId}")
     public ResponseEntity<Response> getResponse(
-        @PathVariable("responseId") String responseId
+        @PathVariable("responseId") UUID responseId
     ) {
         return ResponseEntity.ok(commentService.getResponse(responseId));
     }
 
     @PostMapping("/post/{postId}")
     public ResponseEntity<Comment> postComment(
-        @PathVariable("postId") String postId,
+        @PathVariable("postId") UUID postId,
         @RequestBody String content
     ) {
         return ResponseEntity.ok(commentService.publishComment(postId, content));
@@ -69,7 +70,7 @@ public class CommentController {
 
     @PostMapping("/response/{commentId}")
     public ResponseEntity<Response> postResponse(
-        @PathVariable("commentId") String commentId,
+        @PathVariable("commentId") UUID commentId,
         @RequestBody String content
     ) {
         return ResponseEntity.ok(commentService.respondComment(content, commentId));
@@ -77,7 +78,7 @@ public class CommentController {
 
     @PutMapping("/{commentId}")
     public ResponseEntity<Comment> editComment(
-        @PathVariable("commentId") String commentId,
+        @PathVariable("commentId") UUID commentId,
         @RequestBody String content
     ) {
         return ResponseEntity.ok(commentService.editComment(commentId, content));
